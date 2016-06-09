@@ -15,20 +15,22 @@ Orginize camera objects list and check current state of stage.
 Returns code 200 and list of jsons if correct houseid, 404 otherwise.
 + Response 200 (application/json)
 
-        [
-            {
-                "id": "randomid1",
-                "type": "chair"
-            },
-            {
-                "id": "kokanto",
-                "type": "toxic"
-            },
-            {
-                "id": "randomid3",
-                "type": "table"
-            }
-        ]
+    + Body
+
+            [
+                {
+                    "id": "randomid1",
+                    "type": "chair"
+                },
+                {
+                    "id": "kokanto",
+                    "type": "toxic"
+                },
+                {
+                    "id": "randomid3",
+                    "type": "table"
+                }
+            ]
 
 + Response 404 (application/json)
 
@@ -106,29 +108,32 @@ You may delete object type by id. 404 if invalid ids
 
 # Check for unknown objects api [GET/houses/{houseid}/check]
 
+You may ask recognizer for uknown objects on the stage.
+404 is returned if houseid is invalid.
+
 + Parameters
     + houseid - string, same house identifier as in manage objects api.
 
-You may ask recognizer for uknown objects on the stage. 404 is returned if houseid is invalid
-
 + Response 200 (application/json)
+
     + Body
-        {
-            "result": true
-            "objects": [
-                    {
-                        "id": "randomid1",
-                        "type": "chair"
-                    },
-                    {
-                        "id": "kokanto",
-                        "type": "toxic"
-                    },
-                    {
-                        "id": "randomid3",
-                        "type": "table"
-                    }
-                ]
-        }
+
+            {
+                "result": true
+                "objects": [
+                        {
+                            "id": "randomid1",
+                            "type": "chair"
+                        },
+                        {
+                            "id": "kokanto",
+                            "type": "toxic"
+                        },
+                        {
+                            "id": "randomid3",
+                            "type": "table"
+                        }
+                    ]
+            }
 
 + Response 404 (application/json)
