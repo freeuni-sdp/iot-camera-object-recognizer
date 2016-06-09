@@ -12,7 +12,7 @@
 	<build>
 		<testSourceDirectory>src/test</testSourceDirectory>
 
-		<finalName>todo-core</finalName>
+		<finalName>iot-camera-object-recognizer</finalName>
 		<plugins>
 
 			<plugin>
