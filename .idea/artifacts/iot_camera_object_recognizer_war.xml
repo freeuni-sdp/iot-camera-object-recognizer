@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="iot-camera-object-recognizer:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="todo-core.war">
+      <element id="artifact" artifact-name="iot-camera-object-recognizer:war exploded" />
+    </root>
+  </artifact>
+</component>
