@@ -109,6 +109,8 @@ You may delete object type by id. 404 if invalid ids
 # Check for unknown objects api [GET/houses/{houseid}/check]
 
 You may ask recognizer for uknown objects on the stage.
+if result is false then list of objects is returned as value of "objects"
+key. If everything is Ok then only result true is returned.
 404 is returned if houseid is invalid.
 
 + Parameters
@@ -119,20 +121,11 @@ You may ask recognizer for uknown objects on the stage.
     + Body
 
             {
-                "result": true
+                "result": false
                 "objects": [
-                        {
-                            "id": "randomid1",
-                            "type": "chair"
-                        },
-                        {
-                            "id": "kokanto",
-                            "type": "toxic"
-                        },
-                        {
-                            "id": "randomid3",
-                            "type": "table"
-                        }
+                            "unknownchair",
+                            "unknownkoka",
+                            "unknownakunamatata"
                     ]
             }
 
