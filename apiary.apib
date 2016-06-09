@@ -6,7 +6,7 @@ HOST: http://iot-camera-object-recognizer.herokuapp.com/
 IOT object camera recognizer.
 Orginize camera objects list and check current state of stage.
 
-# Manage Objects api [/webapi/houses/{houseid}/objects]
+# Get List or Add new Object api [/webapi/houses/{houseid}/objects]
 
 + Parameters
     + houseid (required, string, `"76c6-456d-8971"`) ... Unique house identifier
@@ -58,10 +58,14 @@ If houseid is incorrect 404 is returned.
 
 + Response 404 (application/json)
 
-## Get Object by id [GET/{objectid}]
-Get an object type by id, if houseid or objectid is not valid 404 is returned.
+# Manage Known objects api [/webapi/houses/{houseid}/objects/{objectid}]
+
 + Parameters
     + objectid (required, string, `"76c6-456d-8971"`) ... ID of an object, returned by api when called put object
+
+
+### Get Object by id [GET]
+Get an object type by id, if houseid or objectid is not valid 404 is returned.
 
 + Response 200 (application/json)
 
@@ -74,14 +78,11 @@ Get an object type by id, if houseid or objectid is not valid 404 is returned.
 
 + Response 404 (application/json)
 
-## Put Object by id [PUT/{objectid}]
+### Put Object by id [PUT]
 
 You may update object type by id. 404 if invalid ids
 
 + type (string): new object type
-
-+ Parameters
-    + objectid (required, string, `"76c6-456d-8971"`) ... ID of an object, returned by api when called put object
 
 + Request (application/json)
 
@@ -93,14 +94,11 @@ You may update object type by id. 404 if invalid ids
 
 + Response 404 (application/json)
 
-## Delete Object by id [DELETE/{objectid}]
+### Delete Object by id [DELETE]
 
 You may delete object type by id. 404 if invalid ids
 
 + type (string): new object type
-
-+ Parameters
-    + objectid (required, string, `"76c6-456d-8971"`) ... ID of an object, returned by api when called put object
 
 + Response 200 (application/json)
 
