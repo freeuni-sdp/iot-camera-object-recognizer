@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="iot-camera-object-recognizer:war exploded">
-    <output-path>$PROJECT_DIR$/target/todo-core</output-path>
+    <output-path>$PROJECT_DIR$/target/iot-camera-object-recognizer</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -41,7 +41,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/todo-core/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/iot-camera-object-recognizer/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="iot-camera-object-recognizer/web/Web" />
     </root>
