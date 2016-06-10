@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://iot-camera-object-recognizer.herokuapp.com/
+HOST: http://iot-camera-object-recognizer.herokuapp.com/webapi
 
 # IOT Object Camera Recognizer.
 
@@ -16,10 +16,10 @@ Returns `200` if service is alive.
 + Response 200 (application/json)
 
 
-# Get List or Add new Object api [/webapi/houses/{house_id}/objects]
+# Get List or Add new Object api [/houses/{house_id}/objects]
 
 + Parameters
-    + house_id (required, string, `"76c6-456d-8971"`) ... Unique house identifier
+    + house_id (required, string, `76c6-456d-8971`) ... Unique house identifier
 
 ## List All Objects [GET]
 Returns code 200 and list of jsons if correct house_id, 404 otherwise.
@@ -68,10 +68,10 @@ If house_id is incorrect 404 is returned.
 
 + Response 404 (application/json)
 
-# Manage Known objects api [/webapi/houses/{house_id}/objects/{object_id}]
+# Manage Known objects api [/houses/{house_id}/objects/{object_id}]
 
 + Parameters
-    + object_id (required, string, `"76c6-456d-8971"`) ... ID of an object, returned by api when called put object
+    + object_id (required, string, `76c6-456d-8971`) ... ID of an object, returned by api when called put object
 
 
 ### Get Object by id [GET]
