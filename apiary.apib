@@ -6,13 +6,23 @@ HOST: http://iot-camera-object-recognizer.herokuapp.com/
 IOT object camera recognizer.
 Orginize camera objects list and check current state of stage.
 
-# Get List or Add new Object api [/webapi/houses/{houseid}/objects]
+
+# Ping [/ping]
+
+## Ping service [GET]
+
+Returns `200` if service is alive.
+
++ Response 200 (application/json)
+
+
+# Get List or Add new Object api [/webapi/houses/{house_id}/objects]
 
 + Parameters
-    + houseid (required, string, `"76c6-456d-8971"`) ... Unique house identifier
+    + house_id (required, string, `"76c6-456d-8971"`) ... Unique house identifier
 
 ## List All Objects [GET]
-Returns code 200 and list of jsons if correct houseid, 404 otherwise.
+Returns code 200 and list of jsons if correct house_id, 404 otherwise.
 + Response 200 (application/json)
 
     + Body
@@ -37,7 +47,7 @@ Returns code 200 and list of jsons if correct houseid, 404 otherwise.
 ## Add Object [POST]
 
 You may put new object in camera known list(placed on the stage).
-If houseid is incorrect 404 is returned.
+If house_id is incorrect 404 is returned.
 
 + type (string) - object type
 
@@ -58,14 +68,14 @@ If houseid is incorrect 404 is returned.
 
 + Response 404 (application/json)
 
-# Manage Known objects api [/webapi/houses/{houseid}/objects/{objectid}]
+# Manage Known objects api [/webapi/houses/{house_id}/objects/{object_id}]
 
 + Parameters
-    + objectid (required, string, `"76c6-456d-8971"`) ... ID of an object, returned by api when called put object
+    + object_id (required, string, `"76c6-456d-8971"`) ... ID of an object, returned by api when called put object
 
 
 ### Get Object by id [GET]
-Get an object type by id, if houseid or objectid is not valid 404 is returned.
+Get an object type by id, if house_id or object_id is not valid 404 is returned.
 
 + Response 200 (application/json)
 
@@ -104,15 +114,15 @@ You may delete object type by id. 404 if invalid ids
 
 + Response 404 (application/json)
 
-# Check for unknown objects api [GET/houses/{houseid}/check]
+# Check for unknown objects api [GET/houses/{house_id}/check]
 
 You may ask recognizer for uknown objects on the stage.
 if result is false then list of objects is returned as value of "objects"
 key. If everything is Ok then only result true is returned.
-404 is returned if houseid is invalid.
+404 is returned if house_id is invalid.
 
 + Parameters
-    + houseid - string, same house identifier as in manage objects api.
+    + house_id - string, same house identifier as in manage objects api.
 
 + Response 200 (application/json)
 
