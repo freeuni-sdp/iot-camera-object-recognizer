@@ -1,4 +1,4 @@
-package ge.edu.freeuni.sdp.iot.camera.object.recognizer.core;
+package ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.core;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;

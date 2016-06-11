@@ -3,16 +3,16 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>ge.edu.freeuni.sdp.iot.camera.object.recognizer</groupId>
-	<artifactId>iot-camera-object-recognizer</artifactId>
+	<groupId>ge.edu.freeuni.sdp.iot.service.camera_object_recognizer</groupId>
+	<artifactId>camera_object_recognizer</artifactId>
 	<packaging>war</packaging>
 	<version>1.0</version>
-	<name>iot-camera-object-recognizer</name>
+	<name>camera_object_recognizer</name>
 
 	<build>
 		<testSourceDirectory>src/test</testSourceDirectory>
 
-		<finalName>iot-camera-object-recognizer</finalName>
+		<finalName>camera_object_recognizer</finalName>
 		<plugins>
 
 			<plugin>

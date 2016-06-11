@@ -1,4 +1,4 @@
-package ge.edu.freeuni.sdp.iot.camera.object.recognizer.core;
+package ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.core;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

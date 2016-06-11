@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="iot-camera-object-recognizer:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="iot-camera-object-recognizer.war">
+    <root id="archive" name="camera_object_recognizer.war">
       <element id="artifact" artifact-name="iot-camera-object-recognizer:war exploded" />
     </root>
   </artifact>
