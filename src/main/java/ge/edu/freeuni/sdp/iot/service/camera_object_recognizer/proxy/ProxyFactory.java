@@ -9,6 +9,10 @@ public class ProxyFactory {
         return ServiceState.DEV;
     }
 
+    public static ProxyFactory getProxyFactory() {
+        return new ProxyFactory();
+    }
+
     public CameraProxy getCamera() {
         return new CameraProxy(getServiceState());
     }
