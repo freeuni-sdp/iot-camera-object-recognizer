@@ -5,7 +5,6 @@ import com.microsoft.azure.storage.table.CloudTable;
 import com.microsoft.azure.storage.table.TableOperation;
 import com.microsoft.azure.storage.table.TableQuery;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.model.ObjectEntity;
-import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.model.ObjectEntityId;
 
 public class CloudRepository implements Repository {
 
@@ -22,8 +21,8 @@ public class CloudRepository implements Repository {
 
 
     @Override
-    public ObjectEntity delete(String id) throws StorageException {
-        ObjectEntity object = find(id);
+    public ObjectEntity delete(String houseId, String objectId) throws StorageException {
+        ObjectEntity object = find(houseId, objectId);
         if (object != null) {
             TableOperation operation = TableOperation.delete(object);
             table.execute(operation);
@@ -33,10 +32,8 @@ public class CloudRepository implements Repository {
     }
 
     @Override
-    public ObjectEntity find(String id) throws StorageException {
-        ObjectEntityId objectEntityId = new ObjectEntityId(id);
-        TableOperation operation = TableOperation.retrieve(
-                objectEntityId.getPartitionKey(), objectEntityId.getRowKey(), ObjectEntity.class);
+    public ObjectEntity find(String houseId, String objectId) throws StorageException {
+        TableOperation operation = TableOperation.retrieve(houseId, objectId, ObjectEntity.class);
 
         return table.execute(operation).getResultAsType();
     }

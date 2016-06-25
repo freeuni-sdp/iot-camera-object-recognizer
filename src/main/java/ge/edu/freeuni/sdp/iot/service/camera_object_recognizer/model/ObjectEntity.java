@@ -10,10 +10,9 @@ public class ObjectEntity extends TableServiceEntity {
     public ObjectEntity() {
     }
 
-    public ObjectEntity(ObjectDo objectDo) {
-        ObjectEntityId entityId = new ObjectEntityId(objectDo.getId());
-        this.partitionKey = entityId.getPartitionKey();
-        this.rowKey = entityId.getRowKey();
+    private ObjectEntity(ObjectDo objectDo, String houseId) {
+        this.partitionKey = houseId;
+        this.rowKey = objectDo.getId();
         this.type = objectDo.getType();
     }
 
@@ -26,11 +25,10 @@ public class ObjectEntity extends TableServiceEntity {
     }
 
     public ObjectDo toDo() {
-        String id = new ObjectEntityId(partitionKey, rowKey).getId();
-        return new ObjectDo(id, type);
+        return new ObjectDo(getRowKey(), type);
     }
 
-    public static ObjectEntity fromDo(ObjectDo objectDo) {
-        return new ObjectEntity(objectDo);
+    public static ObjectEntity fromDo(ObjectDo objectDo, String houseID) {
+        return new ObjectEntity(objectDo, houseID);
     }
 }

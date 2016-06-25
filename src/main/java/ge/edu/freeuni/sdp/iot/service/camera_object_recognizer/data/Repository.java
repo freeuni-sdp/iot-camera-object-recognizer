@@ -7,9 +7,9 @@ public interface Repository {
 
     void insertOrUpdate(ObjectEntity task) throws StorageException;
 
-    ObjectEntity delete(String id) throws StorageException;
+    ObjectEntity delete(String houseId, String id) throws StorageException;
 
-    ObjectEntity find(String id) throws StorageException;
+    ObjectEntity find(String houseId, String id) throws StorageException;
 
     Iterable<ObjectEntity> getAll();
 }
