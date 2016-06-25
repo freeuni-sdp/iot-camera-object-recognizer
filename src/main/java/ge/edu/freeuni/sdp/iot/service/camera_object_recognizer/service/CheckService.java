@@ -6,33 +6,37 @@ import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.proxy.ProxyFactor
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by misho on 6/25/16.
- */
 @Path("/houses/{house_id}/check")
 @Produces(MediaType.APPLICATION_JSON)
 public class CheckService extends Services {
 
     @GET
-    public CheckDo checkForUnknownObjects(@PathParam("house_id") String houseId) throws StorageException {
+    public CheckDo checkForUnknownObjects(@PathParam("house_id") String houseId) throws StorageException, IOException, GeneralSecurityException {
         if (!houseExists(houseId))
             throw new NotFoundException();
+
         Map<String, Integer> knowns = new HashMap<>();
+        int numObjects = 0;
         for (ObjectEntity obj : getRepository ().getAll(houseId)) {
             String type = obj.toDo().getType();
             int quantity = 1;
             if (knowns.containsKey(type))
                 quantity = knowns.get(type) + 1;
             knowns.put(type, quantity);
+            numObjects++;
         }
+
         List<String> unkowns = new ArrayList<>();
         ProxyFactory factory = getProxyFactory();
-        List<String> found = factory.getGoogleApiProxy().getObjectList(factory.getCamera().get(houseId));
+        List<String> found = factory.getGoogleApiProxy().getObjectList(
+                factory.getCamera().get(houseId), numObjects * 2);
         for (String type : found) {
             if (knowns.containsKey(type)) {
                 int count = knowns.get(type) - 1;
