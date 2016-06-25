@@ -12,4 +12,8 @@ public class ProxyFactory {
     public CameraProxy getCamera() {
         return new CameraProxy(getServiceState());
     }
+
+    public HouseRegistryServiceProxy getHouseRegistryService() {
+        return new HouseRegistryServiceProxy(getServiceState());
+    }
 }
