@@ -9,7 +9,6 @@ import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.proxy.ProxyFactor
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +32,7 @@ public class ObjectService {
         if (!houseExists(houseId))
             throw new NotFoundException();
         List<ObjectDo> result = new ArrayList<>();
-        for (ObjectEntity obj : getRepository().getAll()) {
+        for (ObjectEntity obj : getRepository().getAll(houseId)) {
             result.add(obj.toDo());
         }
         return result;
@@ -45,7 +44,7 @@ public class ObjectService {
             throw new NotFoundException();
         obj.setId(UUID.randomUUID().toString());
         try {
-            getRepository().insertOrUpdate(ObjectEntity.fromDo(obj));
+            getRepository().insertOrUpdate(ObjectEntity.fromDo(houseId, obj));
         } catch (StorageException e) {
             throw new InternalServerErrorException();
         }
@@ -56,7 +55,7 @@ public class ObjectService {
     @Path("{object_id}")
     public ObjectDo getObjectById(@PathParam("house_id") String houseId,
                                   @PathParam("object_id") String objectId) throws StorageException {
-        ObjectEntity entity = getRepository().find(objectId);
+        ObjectEntity entity = getRepository().find(houseId, objectId);
         if (!houseExists(houseId) || entity == null)
             throw new NotFoundException();
         return entity.toDo();
@@ -70,7 +69,7 @@ public class ObjectService {
         ObjectDo objectDo = getObjectById(houseId, objectId);
         // all errors are handled in get object by id
         objectDo.setType(obj.getType());
-        getRepository().insertOrUpdate(ObjectEntity.fromDo(objectDo));
+        getRepository().insertOrUpdate(ObjectEntity.fromDo(houseId, objectDo));
         return objectDo;
     }
 

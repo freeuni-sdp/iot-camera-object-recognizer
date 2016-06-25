@@ -10,7 +10,7 @@ public class ObjectEntity extends TableServiceEntity {
     public ObjectEntity() {
     }
 
-    private ObjectEntity(ObjectDo objectDo, String houseId) {
+    private ObjectEntity(String houseId, ObjectDo objectDo) {
         this.partitionKey = houseId;
         this.rowKey = objectDo.getId();
         this.type = objectDo.getType();
@@ -28,7 +28,7 @@ public class ObjectEntity extends TableServiceEntity {
         return new ObjectDo(getRowKey(), type);
     }
 
-    public static ObjectEntity fromDo(ObjectDo objectDo, String houseID) {
-        return new ObjectEntity(objectDo, houseID);
+    public static ObjectEntity fromDo(String houseId, ObjectDo objectDo) {
+        return new ObjectEntity(houseId, objectDo);
     }
 }

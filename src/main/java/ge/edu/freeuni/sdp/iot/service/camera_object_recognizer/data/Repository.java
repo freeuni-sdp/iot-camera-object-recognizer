@@ -11,5 +11,5 @@ public interface Repository {
 
     ObjectEntity find(String houseId, String id) throws StorageException;
 
-    Iterable<ObjectEntity> getAll();
+    Iterable<ObjectEntity> getAll(String houseId);
 }

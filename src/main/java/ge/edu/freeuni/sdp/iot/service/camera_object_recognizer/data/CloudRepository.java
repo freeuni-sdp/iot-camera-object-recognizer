@@ -8,6 +8,8 @@ import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.model.ObjectEntit
 
 public class CloudRepository implements Repository {
 
+    private static final String PARTITION_KEY = "PartitionKey";
+
     private CloudTable table;
 
     public CloudRepository(CloudTable table) {
@@ -39,7 +41,10 @@ public class CloudRepository implements Repository {
     }
 
     @Override
-    public Iterable<ObjectEntity> getAll() {
-        return table.execute(TableQuery.from(ObjectEntity.class));
+    public Iterable<ObjectEntity> getAll(String houseId) {
+        String partitionFilter = TableQuery.generateFilterCondition(PARTITION_KEY,
+                TableQuery.QueryComparisons.EQUAL, houseId);
+
+        return table.execute(TableQuery.from(ObjectEntity.class).where(partitionFilter));
     }
 }
