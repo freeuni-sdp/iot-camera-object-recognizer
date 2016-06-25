@@ -5,11 +5,13 @@ import com.sun.javafx.collections.MappingChange;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.data.Repository;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.data.RepositoryFactory;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.model.ObjectEntity;
+import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.proxy.ProxyFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,8 +27,26 @@ public class CheckService extends Services {
             throw new NotFoundException();
         Map<String, Integer> knowns = new HashMap<>();
         for (ObjectEntity obj : getRepository ().getAll(houseId)) {
-
+            String type = obj.toDo().getType();
+            int quantity = 1;
+            if (knowns.containsKey(type))
+                quantity = knowns.get(type) + 1;
+            knowns.put(type, quantity);
         }
-        return new CheckDo(true, new ArrayList<String>());
+        List<String> unkowns = new ArrayList<>();
+        ProxyFactory factory = getProxyFactory();
+        List<String> found = factory.getGoogleApiProxy().getObjectList(factory.getCamera().get(houseId));
+        for (String type : found) {
+            if (knowns.containsKey(type)) {
+                int count = knowns.get(type) - 1;
+                if (count == 0)
+                    knowns.remove(type);
+                else
+                    knowns.put(type, count);
+            } else {
+                unkowns.add(type);
+            }
+        }
+        return new CheckDo(unkowns.size() == 0, unkowns);
     }
 }

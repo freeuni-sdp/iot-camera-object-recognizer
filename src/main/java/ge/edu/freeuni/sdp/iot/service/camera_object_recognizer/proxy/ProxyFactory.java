@@ -17,6 +17,10 @@ public class ProxyFactory {
         return new CameraProxy(getServiceState());
     }
 
+    public GoogleApiServiceProxy getGoogleApiProxy() {
+        return new GoogleApiServiceProxy(getServiceState());
+    }
+
     public HouseRegistryServiceProxy getHouseRegistryService() {
         return new HouseRegistryServiceProxy(getServiceState());
     }
