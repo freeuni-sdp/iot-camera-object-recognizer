@@ -38,6 +38,7 @@
           <element id="library" level="project" name="Maven: org.glassfish.jersey.core:jersey-client:2.22" />
           <element id="library" level="project" name="Maven: org.ow2.asm:asm-debug-all:5.0.4" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.7.4" />
+          <element id="library" level="project" name="Maven: org.json:json:20160212" />
         </element>
       </element>
       <element id="directory" name="META-INF">
