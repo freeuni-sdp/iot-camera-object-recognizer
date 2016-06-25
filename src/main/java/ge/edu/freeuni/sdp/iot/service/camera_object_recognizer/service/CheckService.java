@@ -1,9 +1,6 @@
 package ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.service;
 
 import com.microsoft.azure.storage.StorageException;
-import com.sun.javafx.collections.MappingChange;
-import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.data.Repository;
-import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.data.RepositoryFactory;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.model.ObjectEntity;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.proxy.ProxyFactory;
 
