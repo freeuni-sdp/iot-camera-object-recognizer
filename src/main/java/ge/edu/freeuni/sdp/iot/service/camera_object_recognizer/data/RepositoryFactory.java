@@ -15,7 +15,7 @@ public class RepositoryFactory {
 
     private static final String ACCOUNT_NAME = "freeunisdptodo";
 
-    private static final String TABLE_NAME = "iotcamerarecognizerobjects";
+    private static final String TABLE_NAME = "iotcamerarecognizer";
 
     public static Repository create() throws StorageException {
         return new CloudRepository(getTable());
