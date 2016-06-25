@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Path("/houses/{house_id}")
+@Path("/houses/{house_id}/objects")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ObjectService {
@@ -27,7 +27,6 @@ public class ObjectService {
     }
 
     @GET
-    @Path("objects")
     public List<ObjectDo> stub(@PathParam("house_id") String houseId) throws StorageException {
 
         if (!houseExists(houseId))
@@ -40,7 +39,6 @@ public class ObjectService {
     }
 
     @POST
-    @Path("objects")
     public ObjectDo addObject(@PathParam("house_id") String houseId, ObjectDo obj) throws StorageException {
         if (!houseExists(houseId) || obj.getType() == null)
             throw new NotFoundException();
@@ -51,6 +49,16 @@ public class ObjectService {
             throw new InternalServerErrorException();
         }
         return obj;
+    }
+
+    @GET
+    @Path("{object_id}")
+    public ObjectDo getObjectById(@PathParam("house_id") String houseId,
+                                  @PathParam("object_id") String objectId) throws StorageException {
+        ObjectEntity entity = getRepository().find(objectId);
+        if (!houseExists(houseId) || entity == null)
+            throw new NotFoundException();
+        return entity.toDo();
     }
 
     private boolean houseExists(String id) {
