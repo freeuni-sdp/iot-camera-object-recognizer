@@ -2,25 +2,15 @@ package ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.proxy;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.vision.v1.Vision;
-import com.google.api.services.vision.v1.VisionScopes;
-import com.google.api.services.vision.v1.model.AnnotateImageRequest;
-import com.google.api.services.vision.v1.model.AnnotateImageResponse;
-import com.google.api.services.vision.v1.model.BatchAnnotateImagesRequest;
-import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
-import com.google.api.services.vision.v1.model.EntityAnnotation;
-import com.google.api.services.vision.v1.model.Feature;
-import com.google.api.services.vision.v1.model.Image;
+import com.google.api.services.vision.v1.model.*;
 import com.google.common.collect.ImmutableList;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.model.ServiceState;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +20,12 @@ public class GoogleApiServiceProxy {
     private static final String APPLICATION_NAME = "FreeUniSDP-IotCameraObjectRecognizer/1.0";
 
     private static final double TRUST_THRESHOLD = 80.;
+
+    private static final String GOOGLE_CLIENT_ID = "GOOGLE_CLIENT_ID";
+
+    private static final String GOOGLE_CLIENT_SECRET = "GOOGLE_CLIENT_SECRET";
+
+    private static final String GOOGLE_REFRESH_TOKEN = "GOOGLE_REFRESH_TOKEN";
 
     private final ServiceState state;
 
@@ -75,11 +71,34 @@ public class GoogleApiServiceProxy {
     }
 
     private static Vision getVisionService() throws IOException, GeneralSecurityException {
-        GoogleCredential credential = GoogleCredential.getApplicationDefault().createScoped(VisionScopes.all());
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+        NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        GoogleCredential credential = getCredentials(jsonFactory, httpTransport);
 
-        return new Vision.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, credential)
+        return new Vision.Builder(httpTransport, jsonFactory, credential)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
+    }
+
+    private static GoogleCredential getCredentials(JsonFactory jsonFactory, NetHttpTransport httpTransport) throws IOException {
+        // return GoogleCredential.getApplicationDefault().createScoped(VisionScopes.all());
+        String clientId = getEnv(GOOGLE_CLIENT_ID);
+        String clientSecret = getEnv(GOOGLE_CLIENT_SECRET);
+        String refreshToken = getEnv(GOOGLE_REFRESH_TOKEN);
+
+        return new GoogleCredential.Builder()
+                .setJsonFactory(jsonFactory)
+                .setTransport(httpTransport)
+                .setClientSecrets(clientId, clientSecret)
+                .build()
+                .setRefreshToken(refreshToken);
+    }
+
+    private static String getEnv(String envVarName) throws IOException {
+        String envVar = System.getenv(envVarName);
+        if (envVar == null)
+            throw new IOException(envVarName + "is not specified.");
+
+        return envVar;
     }
 }
