@@ -6,14 +6,15 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 public class CameraProxy {
 
-    // TODO set values
     private static final String REAL_CAMERA_API =
             "";
     private static final String DEV_CAMERA_API =
-            "";
+            "https://iot-garden-simulator.herokuapp.com/webapi";
 
     private final Client client;
     private final ServiceState state;
@@ -36,7 +37,17 @@ public class CameraProxy {
     }
 
     public byte[] get(String houseId) {
-        // TODO add real implemetation
-        return new byte[0];
+        String requestUrl = String.format("%s/houses/%s/camera", getApiUrl(), houseId);
+        Response response = client
+                .target(requestUrl)
+                .request(MediaType.APPLICATION_OCTET_STREAM)
+                .get();
+
+        byte[] ret = null;
+
+        if (ResponseUtils.is200(response))
+            ret = response.readEntity(byte[].class);
+
+        return ret;
     }
 }
