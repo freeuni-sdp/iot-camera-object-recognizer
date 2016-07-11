@@ -38,8 +38,13 @@ public class CheckService extends Services {
 
         List<String> unkowns = new ArrayList<>();
         ProxyFactory factory = getProxyFactory();
+        String cameraUrl = factory.getHouseRegistryService().getCameraUrl(houseId);
+
+        if (cameraUrl == null)
+            throw new NotFoundException();
+
         List<String> found = factory.getGoogleApiProxy().getObjectList(
-                factory.getCamera().get(houseId), DEFAULT_MAX_RESULTS);
+                factory.getCamera().get(cameraUrl), DEFAULT_MAX_RESULTS);
         for (String type : found) {
             if (knowns.containsKey(type)) {
                 int count = knowns.get(type) - 1;

@@ -11,11 +11,6 @@ import javax.ws.rs.core.Response;
 
 public class CameraProxy {
 
-    private static final String REAL_CAMERA_API =
-            "";
-    private static final String DEV_CAMERA_API =
-            "https://iot-garden-simulator.herokuapp.com/webapi";
-
     private final Client client;
     private final ServiceState state;
 
@@ -25,21 +20,9 @@ public class CameraProxy {
         this.client = ClientBuilder.newClient(config);
     }
 
-    private String getApiUrl() {
-        String apiUrl= null;
-
-        if (state == ServiceState.DEV)
-            apiUrl = DEV_CAMERA_API;
-        else if (state == ServiceState.REAL)
-            apiUrl = REAL_CAMERA_API;
-
-        return apiUrl;
-    }
-
-    public byte[] get(String houseId) {
-        String requestUrl = String.format("%s/houses/%s/camera", getApiUrl(), houseId);
+    public byte[] get(String cameraUrl) {
         Response response = client
-                .target(requestUrl)
+                .target(cameraUrl)
                 .request(MediaType.APPLICATION_OCTET_STREAM)
                 .get();
 
