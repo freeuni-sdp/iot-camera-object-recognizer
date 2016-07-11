@@ -64,4 +64,8 @@ public class FakeRepository implements Repository {
     public void clear() {
         memo.clear();
     }
+
+    public boolean contains(String houseId, String id) {
+        return memo.containsKey(houseId) && memo.get(houseId).containsKey(id);
+    }
 }

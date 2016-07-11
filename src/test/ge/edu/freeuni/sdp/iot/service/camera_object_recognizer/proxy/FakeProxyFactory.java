@@ -9,7 +9,7 @@ public class FakeProxyFactory extends ProxyFactory {
 
     private static FakeProxyFactory proxyFactory;
 
-    public static FakeProxyFactory getFakeFactory(){
+    public static FakeProxyFactory getFakeFactory() {
         if (proxyFactory == null)
             proxyFactory = new FakeProxyFactory();
         return proxyFactory;
