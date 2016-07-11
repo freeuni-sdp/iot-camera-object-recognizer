@@ -9,7 +9,7 @@ import java.security.GeneralSecurityException;
 public class ProxyFactory {
 
     protected ServiceState getServiceState() {
-        return ServiceState.DEV;
+        return ServiceState.REAL;
     }
 
     public static ProxyFactory getProxyFactory() {
