@@ -26,14 +26,12 @@ public class CheckService extends Services {
             throw new NotFoundException();
 
         Map<String, Integer> knowns = new HashMap<>();
-        int numObjects = 0;
         for (ObjectEntity obj : getRepository ().getAll(houseId)) {
             String type = obj.toDo().getType();
             int quantity = 1;
             if (knowns.containsKey(type))
                 quantity = knowns.get(type) + 1;
             knowns.put(type, quantity);
-            numObjects++;
         }
 
         List<String> unkowns = new ArrayList<>();
