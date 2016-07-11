@@ -15,6 +15,6 @@ public class FakeObjectService extends ObjectService {
 
     @Override
     public ProxyFactory getProxyFactory() {
-        return FakeProxyFactory.getProxyFactory();
+        return FakeProxyFactory.getFakeFactory();
     }
 }
