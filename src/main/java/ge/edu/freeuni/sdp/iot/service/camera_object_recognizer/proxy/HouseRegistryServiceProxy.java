@@ -17,6 +17,9 @@ public class HouseRegistryServiceProxy {
     private static final String DEV_HOUSE_REGISTRY_API =
             "http://private-3aa89-iothouseregistry.apiary-mock.com";
 
+    private static final String DEV_CAMERA_URL =
+            "https://iot-garden-simulator.herokuapp.com/webapi";
+
     private static final String KEY_CAMERA = "cam_ip";
     private static final String KEY_SUB_IP = "_";
 
@@ -51,10 +54,18 @@ public class HouseRegistryServiceProxy {
     }
 
     public String getCameraUrl(String houseId) {
+        return state == ServiceState.DEV ? getDevUrl(houseId) : getRealUrl(houseId);
+    }
+
+    private String getDevUrl(String houseId) {
+        return String.format("%s/houses/%s/camera", DEV_CAMERA_URL, houseId);
+    }
+
+    private String getRealUrl(String houseId) {
         String requestUrl = String.format("%s/houses/%s", getApiUrl(), houseId);
         Response response = client
                 .target(requestUrl)
-                .request(MediaType.APPLICATION_OCTET_STREAM)
+                .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
         try {
             JSONObject obj =  new JSONObject(response.readEntity(String.class));
