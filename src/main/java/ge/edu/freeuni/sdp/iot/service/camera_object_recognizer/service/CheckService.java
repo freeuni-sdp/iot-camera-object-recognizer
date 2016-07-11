@@ -17,6 +17,8 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 public class CheckService extends Services {
 
+    private static final int DEFAULT_MAX_RESULTS = 50;
+
     @GET
     public CheckDo checkForUnknownObjects(@PathParam("house_id") String houseId) throws StorageException, IOException, GeneralSecurityException {
         if (!houseExists(houseId))
@@ -36,7 +38,7 @@ public class CheckService extends Services {
         List<String> unkowns = new ArrayList<>();
         ProxyFactory factory = getProxyFactory();
         List<String> found = factory.getGoogleApiProxy().getObjectList(
-                factory.getCamera().get(houseId), numObjects * 2);
+                factory.getCamera().get(houseId), DEFAULT_MAX_RESULTS);
         for (String type : found) {
             if (knowns.containsKey(type)) {
                 int count = knowns.get(type) - 1;
