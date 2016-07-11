@@ -21,6 +21,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GoogleApiServiceProxy {
 
     private static final String APPLICATION_NAME = "FreeUniSDP-IotCameraObjectRecognizer/1.0";

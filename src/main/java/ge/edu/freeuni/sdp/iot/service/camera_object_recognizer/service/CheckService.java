@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Path("/houses/{house_id}/check")
 @Produces(MediaType.APPLICATION_JSON)
 public class CheckService extends Services {

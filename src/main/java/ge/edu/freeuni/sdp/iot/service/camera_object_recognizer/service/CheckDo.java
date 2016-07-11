@@ -2,9 +2,7 @@ package ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.service;
 
 import java.util.List;
 
-/**
- * Created by misho on 6/25/16.
- */
+
 public class CheckDo {
 
     private boolean result;
