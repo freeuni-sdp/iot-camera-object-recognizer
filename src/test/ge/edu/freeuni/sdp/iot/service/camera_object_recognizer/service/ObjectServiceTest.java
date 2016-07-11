@@ -12,7 +12,7 @@ public class ObjectServiceTest extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return new ResourceConfig(PingService.class);
+        return new ResourceConfig(FakeObjectService.class);
     }
 
     @Before

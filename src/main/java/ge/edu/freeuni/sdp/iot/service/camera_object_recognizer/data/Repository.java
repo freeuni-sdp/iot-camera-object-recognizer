@@ -5,7 +5,7 @@ import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.model.ObjectEntit
 
 public interface Repository {
 
-    void insertOrUpdate(ObjectEntity task) throws StorageException;
+    void insertOrUpdate(ObjectEntity object) throws StorageException;
 
     ObjectEntity delete(String houseId, String id) throws StorageException;
 

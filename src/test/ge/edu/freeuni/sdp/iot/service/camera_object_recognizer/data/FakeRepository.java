@@ -3,6 +3,7 @@ package ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.data;
 import com.microsoft.azure.storage.StorageException;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.model.ObjectEntity;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 public class FakeRepository implements Repository {
@@ -22,23 +23,42 @@ public class FakeRepository implements Repository {
     }
 
     @Override
-    public void insertOrUpdate(ObjectEntity task) throws StorageException {
-
+    public void insertOrUpdate(ObjectEntity object) throws StorageException {
+        HashMap<String, ObjectEntity> partition = new HashMap<>();
+        if (memo.containsKey(object.getPartitionKey()))
+            partition = memo.get(object.getPartitionKey());
+        partition.put(object.getRowKey(), object);
+        memo.put(object.getPartitionKey(), partition);
     }
 
     @Override
     public ObjectEntity delete(String houseId, String id) throws StorageException {
-        return null;
+        ObjectEntity object = null;
+        if (memo.containsKey(houseId)) {
+            HashMap<String, ObjectEntity> partition = memo.get(houseId);
+            if (partition.containsKey(id))
+                object = partition.remove(id);
+        }
+        return object;
     }
 
     @Override
     public ObjectEntity find(String houseId, String id) throws StorageException {
-        return null;
+        ObjectEntity object = null;
+        if (memo.containsKey(houseId)) {
+            HashMap<String, ObjectEntity> partition = memo.get(houseId);
+            if (partition.containsKey(id))
+                object = partition.get(id);
+        }
+        return object;
     }
 
     @Override
     public Iterable<ObjectEntity> getAll(String houseId) {
-        return null;
+        Iterable<ObjectEntity> objects = Collections.emptyList();
+        if (memo.containsKey(houseId))
+            objects = memo.get(houseId).values();
+        return objects;
     }
 
     public void clear() {
