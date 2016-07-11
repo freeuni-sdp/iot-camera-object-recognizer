@@ -1,6 +1,7 @@
 package ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.service;
 
 import com.microsoft.azure.storage.StorageException;
+import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.data.FakeRepository;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.data.Repository;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.proxy.FakeProxyFactory;
 import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.proxy.ProxyFactory;
@@ -11,7 +12,7 @@ import ge.edu.freeuni.sdp.iot.service.camera_object_recognizer.proxy.ProxyFactor
 public class FakeCheckService extends CheckService {
     @Override
     public Repository getRepository() throws StorageException {
-        return super.getRepository();
+        return FakeRepository.instance();
     }
 
     @Override
