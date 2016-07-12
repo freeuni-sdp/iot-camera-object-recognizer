@@ -11,6 +11,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -31,6 +33,13 @@ public class ObjectServiceTest extends JerseyTest {
 
     private static final String[] OBJECTS = {"person", "dog", "cat", "table"};
 
+    @Mock
+    private CameraProxy cameraProxy;
+    @Mock
+    private GoogleApiServiceProxy googleApiServiceProxy;
+    @Mock
+    private HouseRegistryServiceProxy houseRegistryServiceProxy;
+
     @Override
     protected Application configure() {
         return new ResourceConfig(FakeObjectService.class);
@@ -38,18 +47,16 @@ public class ObjectServiceTest extends JerseyTest {
 
     @Before
     public void setUpChild() throws Exception {
-        CameraProxy cameraProxy = mock(CameraProxy.class);
+        MockitoAnnotations.initMocks(this);
         FakeProxyFactory.getFakeFactory().setCamera(cameraProxy);
-        GoogleApiServiceProxy googleApiServiceProxy = mock(GoogleApiServiceProxy.class);
         FakeProxyFactory.getFakeFactory().setGoogleApiService(googleApiServiceProxy);
+        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
     }
 
     @Test
     public void testGetList_except200emptyList() {
         FakeRepository.instance().clear();
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get("1")).thenReturn(true);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget("1")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
@@ -65,9 +72,7 @@ public class ObjectServiceTest extends JerseyTest {
         String houseId = "1";
         ObjectEntity expected = getRandomObjectEntity(houseId);
         FakeRepository.instance().insertOrUpdate(expected);
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(true);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget("1")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
@@ -81,9 +86,7 @@ public class ObjectServiceTest extends JerseyTest {
     public void testGetList_except404wrongHouseId() {
         FakeRepository.instance().clear();
         String houseId = "1";
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(false);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
@@ -96,9 +99,7 @@ public class ObjectServiceTest extends JerseyTest {
         String houseId = "1";
         ObjectEntity expected = getRandomObjectEntity(houseId);
         FakeRepository.instance().insertOrUpdate(expected);
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(true);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId, expected.getRowKey())
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
@@ -113,9 +114,7 @@ public class ObjectServiceTest extends JerseyTest {
         String houseId = "1";
         ObjectEntity expected = getRandomObjectEntity(houseId);
         FakeRepository.instance().insertOrUpdate(expected);
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(false);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId, expected.getRowKey())
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
@@ -128,9 +127,7 @@ public class ObjectServiceTest extends JerseyTest {
         String houseId = "1";
         ObjectEntity expected = getRandomObjectEntity(houseId);
         FakeRepository.instance().insertOrUpdate(expected);
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(true);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId, "zoro")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
@@ -142,9 +139,7 @@ public class ObjectServiceTest extends JerseyTest {
         FakeRepository.instance().clear();
         String houseId = "1";
         ObjectDo expected = getRandomObjectDo();
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(true);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId)
                 .request()
                 .post(Entity.entity(expected, MediaType.APPLICATION_JSON_TYPE));
@@ -159,9 +154,7 @@ public class ObjectServiceTest extends JerseyTest {
         FakeRepository.instance().clear();
         String houseId = "1";
         ObjectDo expected = getRandomObjectDo();
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(false);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId)
                 .request()
                 .post(Entity.entity(expected, MediaType.APPLICATION_JSON_TYPE));
@@ -176,9 +169,7 @@ public class ObjectServiceTest extends JerseyTest {
         FakeRepository.instance().insertOrUpdate(randomObjectEntity);
         ObjectDo expected = randomObjectEntity.toDo();
         expected.setType(getRandomType());
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(true);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId, expected.getId())
                 .request()
                 .put(Entity.entity(expected, MediaType.APPLICATION_JSON_TYPE));
@@ -196,9 +187,7 @@ public class ObjectServiceTest extends JerseyTest {
         FakeRepository.instance().insertOrUpdate(randomObjectEntity);
         ObjectDo expected = randomObjectEntity.toDo();
         expected.setType(getRandomType());
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(false);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId, expected.getId())
                 .request()
                 .put(Entity.entity(expected, MediaType.APPLICATION_JSON_TYPE));
@@ -213,9 +202,7 @@ public class ObjectServiceTest extends JerseyTest {
         FakeRepository.instance().insertOrUpdate(randomObjectEntity);
         ObjectDo expected = randomObjectEntity.toDo();
         expected.setType(getRandomType());
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(true);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId, "zoro")
                 .request()
                 .put(Entity.entity(expected, MediaType.APPLICATION_JSON_TYPE));
@@ -228,9 +215,7 @@ public class ObjectServiceTest extends JerseyTest {
         String houseId = "1";
         ObjectEntity expected = getRandomObjectEntity(houseId);
         FakeRepository.instance().insertOrUpdate(expected);
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(true);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId, expected.getRowKey())
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .delete();
@@ -246,9 +231,7 @@ public class ObjectServiceTest extends JerseyTest {
         FakeRepository.instance().insertOrUpdate(randomObjectEntity);
         ObjectDo expected = randomObjectEntity.toDo();
         expected.setType(getRandomType());
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(false);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId, expected.getId())
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .delete();
@@ -263,9 +246,7 @@ public class ObjectServiceTest extends JerseyTest {
         FakeRepository.instance().insertOrUpdate(randomObjectEntity);
         ObjectDo expected = randomObjectEntity.toDo();
         expected.setType(getRandomType());
-        HouseRegistryServiceProxy houseRegistryServiceProxy = mock(HouseRegistryServiceProxy.class);
         when(houseRegistryServiceProxy.get(houseId)).thenReturn(true);
-        FakeProxyFactory.getFakeFactory().setHouseRegistryService(houseRegistryServiceProxy);
         Response actual = getTarget(houseId, "zoro")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .delete();
